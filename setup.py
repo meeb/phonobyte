@@ -30,4 +30,5 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     keywords=('phonobyte',),
+    test_suite='tests',
 )
