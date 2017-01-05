@@ -1,8 +1,22 @@
 # phonobyte
 
-`phonobyte` encodes binary data to phonetically pronounceable three letter words. The
-words have been chosen to be clearly understandable when spoken.
+`phonobyte` encodes binary data to phonetically pronounceable three letter
+words. The words have been chosen to be clearly understandable when spoken.
+`phonobyte`, while not by any means the smallest binary to text encoing tool,
+compares reasonably well with other popular methods despite being designed to
+encode to pronounceable words:
 
+| method    | input    | output   | chars per byte | average increase |
+|-----------|----------|----------|----------------|------------------|
+| hex       | \x11\x22 | 1122     | 2              | 100%             |
+| base64    | \x11\x22 | ESI=     | 1.333          | 133%             |
+| base32    | \x11\x22 | CERA==== | 1.625          | 162.5%           |
+| phonobyte | \x11\x22 | dug gut  | 3              | 300%             |
+
+
+Practical uses for `phonobyte` include to transmitting hashes, short
+cryptography keys, etc. in a way that is easy to read and be spoken aloud by
+humans.
 
 # Installation
 
@@ -35,14 +49,12 @@ decoded_data = decode(encoded_data)
 print(decoded_data)
 ```
 
-Practical uses include using `phonobyte` to transmit hashes, short cryptography
-keys, etc.
+# Lookup table
 
-# Table used
-
-Each word used has been carefully vetted to be a valid word in the English
-dictionary and not be offensive. The table was then randomised. The lookup
-table used to convert data is as follows:
+Each word in the table has been carefully vetted to be a valid word in the
+English dictionary, not be offensive and be clearly pronounceable with as
+little scope for interpretation errors as possible. The table was then
+randomised. The lookup table used to convert data is as follows:
 
 | byte | word | byte | word | byte | word | byte | word |
 |------|------|------|------|------|------|------|------|
@@ -114,8 +126,8 @@ table used to convert data is as follows:
 # API
 
 There are only two main methods to use in this library. All errors will raise
-a `phonobyte.PhonoByteError` or exception. The main methods are listed below
-with their defaults:
+a `phonobyte.PhonoByteError` exception. The main methods are listed below with
+their defaults:
 
 `phonobyte.encode(data, return_string=True)`
 
@@ -124,19 +136,17 @@ with their defaults:
  * `data` the binary input data to encode
  * `return_string` if set to `True` return a string, if set to `False` return
     a list
- * `max_bytes` maximum allowed number of bytes to encode
 
 **Returns:**
 
- * A string of space separated dictionary words if `return_string` is `True`,
-   otherwise a list of dictionary words
+ * A string of space separated words if `return_string` is `True`, otherwise a
+   list of words
 
 `phonobyte.decode(words)`
 
 **Arguments:**
 
- * `words` a string of space separated dictionary words or a list of dictionary
-   words
+ * `words` a string of space separated words or a list of words
 
 **Returns:**
 
